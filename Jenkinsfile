@@ -1,6 +1,11 @@
 node {
     def app
 
+    tools {
+        maven 'maven-3.6.2'
+        jdk 'openjdk-1.8'
+    }
+
     stage('Checkout') {
         checkout scm
     }
