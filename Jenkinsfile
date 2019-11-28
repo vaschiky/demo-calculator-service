@@ -6,7 +6,7 @@ node {
     }
 	
     stage('Maven Package') {
-        withMaven(maven:'maven-3.6.2'){
+        withMaven(maven:'maven-3.6.3'){
           sh 'mvn clean package'
 	}
     }
