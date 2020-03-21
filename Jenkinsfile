@@ -11,15 +11,20 @@ node {
 	}
     }
 
-    stage('Build image') {
-        app = docker.build("learntechpuzz/demo-calculator-service")
+    stage('Build Image') {
+        app = docker.build("learntechpuzz/demo-calculator-service:${env.BUILD_NUMBER}")
     }
 
-    stage('Push image') {
+    stage('Push Image') {
         docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
             app.push("${env.BUILD_NUMBER}")
-            app.push("latest")
         }
+    }
+    stage('Deploy Container'){
+    	docker.withServer('tcp://54.175.228.93:2376') {
+	         app.withRun('-p 7001:7001') {
+	        }
+    	}
     }
 }
 
