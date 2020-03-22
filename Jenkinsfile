@@ -33,7 +33,7 @@ node {
     }
     
     stage('Send Email') {
-	    def mailRecipients = "learntechpuzz@gmail.com"
+	    def mailRecipients = "bvijaycom@gmail.com"
 		def emailBody = '${SCRIPT, template="groovy-html.template"}'
 		def emailSubject = "${env.JOB_NAME} - Build# ${env.BUILD_NUMBER} - ${currentBuild.currentResult}"
 
