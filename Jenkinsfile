@@ -18,10 +18,11 @@ node {
     stage('Push Image') {
         docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
             app.push("${env.BUILD_NUMBER}")
+            app.push("latest")
         }
     }
     stage('Deploy Container'){
-    	docker.withServer('tcp://54.175.228.93:2376') {
+    	docker.withServer('tcp://54.175.228.93:5000') {
 	         app.withRun('-p 7001:7001') {
 	        }
     	}
