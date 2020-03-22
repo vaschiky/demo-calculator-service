@@ -28,7 +28,7 @@ node {
         }
     }
     stage('Deploy Container'){
- 		writeFile file: 'deploy.sh', text: 'docker run -d -p 7001:7001 learntechpuzz/demo-calculator-service:${env.BUILD_NUMBER}'
+ 		writeFile file: 'deploy.sh', text: "docker run -d -p 7001:7001 learntechpuzz/demo-calculator-service:\"${env.BUILD_NUMBER}\""
       	sshScript remote: remote, script: "deploy.sh"   
     }
 }
