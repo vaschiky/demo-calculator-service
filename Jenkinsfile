@@ -34,10 +34,10 @@ node {
     
     stage('Send Email') {
 	    def mailRecipients = "learntechpuzz@gmail.com"
+		def emailBody = '${SCRIPT, template="groovy-html.template"}'
+		def emailSubject = "${env.JOB_NAME} - Build# ${env.BUILD_NUMBER} - ${env.BUILD_STATUS}"
 
-	    emailext body: '''${SCRIPT, template="groovy-html.template"}''',
-	        mimeType: 'text/html',
-	        to: "${mailRecipients}"
+	    emailext body: "${emailBody}", mimeType: 'text/html', subject: "${emailSubject}", to: "${mailRecipients}"
 	}
 }
 
