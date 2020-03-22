@@ -31,5 +31,13 @@ node {
  		writeFile file: 'deploy.sh', text: "docker run -d -p 7001:7001 learntechpuzz/demo-calculator-service:$BUILD_NUMBER"
       	sshScript remote: remote, script: "deploy.sh"   
     }
+    
+    stage('Send Email') {
+	    def mailRecipients = "learntechpuzz@gmail.com"
+
+	    emailext body: '''${SCRIPT, template="groovy-html.template"}''',
+	        mimeType: 'text/html',
+	        to: "${mailRecipients}"
+	}
 }
 
