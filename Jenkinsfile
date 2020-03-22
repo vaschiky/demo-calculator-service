@@ -1,6 +1,13 @@
 node {
     def app
 
+	def remote = [:]
+    remote.name = 'prod-server'
+    remote.host = '54.175.228.93'
+    remote.user = 'ec2-user'
+    remote.password = 'India@321'
+    remote.allowAnyHosts = true
+    
     stage('Checkout') {
         checkout scm
     }
@@ -18,14 +25,11 @@ node {
     stage('Push Image') {
         docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
             app.push("${env.BUILD_NUMBER}")
-            app.push("latest")
         }
     }
     stage('Deploy Container'){
-    	docker.withServer('tcp://54.175.228.93:5000') {
-	         app.withRun('-p 7001:7001') {
-	        }
-    	}
+ 		writeFile file: 'deploy.sh', text: 'docker run -d -p 7001:7001 learntechpuzz/demo-calculator-service:${env.BUILD_NUMBER}'
+      	sshScript remote: remote, script: "deploy.sh"   
     }
 }
 
