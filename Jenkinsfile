@@ -28,14 +28,14 @@ node {
         }
     }
     stage('Deploy Container'){
- 		writeFile file: 'deploy.sh', text: "docker run -d -p 7001:7001 learntechpuzz/demo-calculator-service:$BUILD_NUMBER"
+ 		writeFile file: 'deploy.sh', text: "docker stop demo-calculator-service || true && docker rm demo-calculator-service || true && docker run --name demo-calculator-service -d -p 7001:7001 learntechpuzz/demo-calculator-service:$BUILD_NUMBER"
       	sshScript remote: remote, script: "deploy.sh"   
     }
     
     stage('Send Email') {
 	    def mailRecipients = "learntechpuzz@gmail.com"
 		def emailBody = '${SCRIPT, template="groovy-html.template"}'
-		def emailSubject = "${env.JOB_NAME} - Build# ${env.BUILD_NUMBER} - ${env.BUILD_STATUS}"
+		def emailSubject = "${env.JOB_NAME} - Build# ${env.BUILD_NUMBER} - ${currentBuild.currentResult}"
 
 	    emailext body: "${emailBody}", mimeType: 'text/html', subject: "${emailSubject}", to: "${mailRecipients}"
 	}
