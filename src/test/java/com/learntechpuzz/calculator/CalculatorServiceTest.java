@@ -15,7 +15,7 @@ class CalculatorServiceTest {
 
 	@Test
 	public void testAdd() {
-		assertThat(calculatorService.add(1, 2)).isEqualTo(3);
+		assertThat(calculatorService.add(1, 2)).isEqualTo(4);
 	}
 
 }
