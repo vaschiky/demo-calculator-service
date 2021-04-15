@@ -16,6 +16,7 @@ public class CalculatorController {
 	@GetMapping("/add")
 	public int sum(@RequestParam(value = "number1", required = true) int number1,
 			@RequestParam(value = "number2", required = true) int number2) {
+		System.out.println("new line");
 		return calculatorService.add(number1, number2);
 	}
 }
